@@ -1,0 +1,54 @@
+# ------------------------------------------------------------------
+# .gitignore – Student Task Manager IaC Project
+# ------------------------------------------------------------------
+
+# ── Terraform state & sensitive files ─────────────────────────────
+# State files contain resource IDs and may contain sensitive values
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+*.tfstate
+*.tfstate.*
+
+# tfvars files with real credentials (use .example versions instead)
+terraform.tfvars
+*.auto.tfvars
+
+# Terraform plan output files
+tfplan
+*.tfplan
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Override files (local developer overrides)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# ── Cloudflare / credentials ───────────────────────────────────────
+.env
+.env.*
+*.pem
+*.key
+secrets.*
+
+# ── Node / npm (if used for local testing) ────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── OS generated ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor files ──────────────────────────────────────────────────
+.vscode/settings.json
+*.swp
+*.swo
+*~

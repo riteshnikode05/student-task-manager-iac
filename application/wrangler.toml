@@ -1,0 +1,10 @@
+name = "student-task-manager"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# This file is provided for local development / wrangler testing only.
+# Production infrastructure is managed exclusively via Terraform.
+
+[[kv_namespaces]]
+binding = "TASKS_KV"
+id      = "REPLACE_WITH_KV_NAMESPACE_ID"   # fill in after terraform apply
