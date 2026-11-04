@@ -136,7 +136,7 @@ function frontendHtml() {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cloud-Based Student Task Manager</title>
+  <title>Cloud-Based Cloud-Based Student Task Manager</title>
   <style>
     /* ── Reset & base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -430,3 +430,4 @@ async function handleRequest(request) {
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
 });
+
