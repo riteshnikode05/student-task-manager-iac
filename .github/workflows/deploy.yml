@@ -96,6 +96,21 @@ jobs:
           TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: terraform plan -out=tfplan
 
+      - name: "Import existing KV namespace (if already created)"
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        # Imports already-provisioned resources into CI state so apply doesn't
+        # try to recreate them. The command is allowed to fail (resource may
+        # not exist on first run).
+        run: |
+          terraform import \
+            cloudflare_workers_kv_namespace.student_tasks \
+            ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/${{ secrets.KV_NAMESPACE_ID }} || true
+          terraform import \
+            cloudflare_workers_script.task_manager \
+            ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/student-task-manager-production || true
+
       - name: "terraform apply"
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
