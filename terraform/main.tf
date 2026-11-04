@@ -34,9 +34,5 @@ resource "cloudflare_workers_script" "task_manager" {
   }
 }
 
-# ── 4. Enable workers.dev public URL ─────────────────────────────
-resource "cloudflare_worker_script_subdomain" "task_manager_subdomain" {
-  account_id  = var.cloudflare_account_id
-  script_name = cloudflare_workers_script.task_manager.name
-  enabled     = true
-}
+# Note: workers.dev subdomain is enabled via the Cloudflare API after deploy.
+# The public URL is: https://<worker-name>.noisy-leaf-d17b.workers.dev
