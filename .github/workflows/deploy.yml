@@ -90,19 +90,12 @@ jobs:
       - name: "terraform validate"
         run: terraform validate
 
-      - name: "terraform plan"
+      - name: "Import existing resources into CI state"
         env:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: terraform plan -out=tfplan
-
-      - name: "Import existing KV namespace (if already created)"
-        env:
-          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        # Imports already-provisioned resources into CI state so apply doesn't
-        # try to recreate them. The command is allowed to fail (resource may
-        # not exist on first run).
+        # Import already-provisioned resources BEFORE plan so apply doesn't
+        # try to recreate them. Allowed to fail on first-time runs.
         run: |
           terraform import \
             cloudflare_workers_kv_namespace.student_tasks \
@@ -110,6 +103,12 @@ jobs:
           terraform import \
             cloudflare_workers_script.task_manager \
             ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/student-task-manager-production || true
+
+      - name: "terraform plan"
+        env:
+          TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: terraform plan -out=tfplan
 
       - name: "terraform apply"
         env:
